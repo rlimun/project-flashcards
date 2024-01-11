@@ -3,24 +3,28 @@ import React, { useState, useEffect } from "react";
 import { useHistory, useParams, Link } from "react-router-dom";
 import { readDeck, updateDeck } from "../utils/api";
 
-function EditDeck({setDeck}){
+function EditDeck(){
     const { deckId } = useParams();
+    const [ deck, setDeck ] = useState([]);
     const history = useHistory();
     const [ formData, setFormData ] = useState({
         name: '',
         description: '',
     })
+    const initialFormState = {  
+        name: '',
+        description: '',
+    };
 
     useEffect(() => {
-        console.log('edit deck component rendered');
         const abortController = new AbortController();
         const fetchDeck = async() => {
             try {
-                const response = await readDeck(deckId, abortController.signal);
-                const data = await response.json();
+                const deck = await readDeck(deckId, abortController.signal);
+                console.log('data', deck);
                 setFormData({
-                    name: data.name,
-                    description: data.description,
+                    name: deck.name,
+                    description: deck.description,
                 })
             } catch(error){
                 console.log('Error fetching cards ', error);
@@ -45,30 +49,36 @@ function EditDeck({setDeck}){
         </nav>
     )
 
-    const handleSubmitForm = async (event, {target}) => {
+    const handleSubmitForm = async (event) => {
+        const abortController = new AbortController();
         event.preventDefault();
         
         const updatedDeck = {
+            id: deckId,
             name: formData.name,
             description: formData.description,
         }
+        await updateDeck(updatedDeck, abortController.signal);
 
-        await updateDeck(deckId, updatedDeck);
-
-        setFormData((currentFormData) => ({
-            ...currentFormData,
-            [target.name]: target.value,
-        }))
-
-        const response = await readDeck(deckId);
-        setDeck(response);
-
+        const updatedDeckData = await readDeck(deckId, abortController.signal);
+        setDeck(updatedDeckData);
+        setFormData(initialFormState);
         history.push(`/decks/${deckId}`);
+    }
+
+    const handleInputChange = (event) => {
+        const { name, value } = event.target;
+        setFormData((currentFormData) => (
+            {
+                ...currentFormData,
+                [name]: value,
+            }
+        ))
     }
 
     const handleCancelButton = () => {
        // event.preventDefault();
-        history.push('/deck');
+        history.push(`/decks/${deckId}`);
     }
 
 
@@ -80,17 +90,17 @@ function EditDeck({setDeck}){
                     <div className="form-group">
                         <label>
                             <p>Name</p>
-                            <input name="name" value={formData.name}/>
+                            <input name="name" value={formData.name} onChange={handleInputChange}/>
                         </label>
                     </div>
                     <div className="form-group">
                         <label>
                             <p>Description</p>
-                            <textarea name="description" value={formData.name}/>
+                            <textarea name="description" value={formData.description} onChange={handleInputChange}/>
                         </label>
                     </div>
                     <div className="button-group">
-                        <button onClick={() => handleCancelButton}>Cancel</button>
+                        <button onClick={() => handleCancelButton()}>Cancel</button>
                         <button type="submit">Submit</button>
                     </div>
                 </form>
