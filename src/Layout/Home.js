@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { listDecks, deleteDeck } from "../utils/api";
+import  Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
 
 
 const Home = () => {
@@ -59,15 +61,52 @@ const Home = () => {
     
     return (
         <div>
-            <button onClick={handleCreateDeckClick}>Create Deck</button>
+            <div className="home-body" style={{ display: 'flex' , flexDirection: 'column'}}>
+            <Button variant="outline-primary" style={{ display: 'flex', alignItems: "center", justifyContent: 'center'}} onClick={handleCreateDeckClick}>Create Deck</Button>
             { decks.map((deck) => (
-                <div key={deck.id}
-                >
-                    <h4>{deck.name}</h4>
+                <div key={deck.id}>
+                     <div
+                        className="modal show"
+                        style={{ display: 'block', position: 'initial' }}
+                        >
+                        <Modal.Dialog>
+                            <Modal.Header>
+                            <Modal.Title>{deck.name}</Modal.Title>
+                            <Modal.Title>{deck.cards.length} cards</Modal.Title>
+                            </Modal.Header>
+
+                            <Modal.Body>
+                            <p>{deck.description}</p>
+                            </Modal.Body>
+
+                            <Modal.Footer>
+                            <Link to={`/decks/${deck.id}`}>
+                                <Button variant="primary" onClick={() => handleViewClick(deck.id)}>View</Button>
+                             </Link>
+                             <Link to={`/decks/${deck.id}/study`}>
+                                <Button variant="success" onClick={() => handleStudyClick(deck.id)}>Study</Button>
+                             </Link>
+                            <Button variant="danger" onClick={() => handleDelete(deck.id)}> Delete </Button>
+                            </Modal.Footer>
+                        </Modal.Dialog>
+                        </div>
+                </div>
+            ))}
+        </div>
+        </div>
+    )
+}
+
+
+export default Home;
+
+              
+/**
+ *  <h4>{deck.name}</h4>
                     <h5> {deck.cards.length} cards</h5>
                     <p>{deck.description}</p>
                     <Link to={`/decks/${deck.id}`}>
-                        <button onClick={() => handleViewClick(deck.id)}>
+                        <button type="button" class="btn btn-primary" onClick={() => handleViewClick(deck.id)}>
                             View
                         </button>
                     </Link>
@@ -77,13 +116,4 @@ const Home = () => {
                         </button>
                     </Link>
                     <button name="delete" onClick={() => handleDelete(deck.id)}> Delete </button>
-                </div>
-            ))}
-        </div>
-    )
-}
-
-
-export default Home;
-
-              
+ */

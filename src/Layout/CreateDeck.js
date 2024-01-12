@@ -1,6 +1,9 @@
 import React, { useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { createDeck } from "../utils/api";
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import Breadcrumb from 'react-bootstrap/Breadcrumb';
 
 
 
@@ -12,19 +15,6 @@ const CreateDeck = () => {
     const [ formData, setFormData ] = useState(initialFormState);
     const [ deck, setDeck ] = useState({});
     const history = useHistory();
-
-    const navBar = (
-        <nav>
-            <ol className="breadcrumb">
-                <li className="breadcrumb-item">
-                    <Link to="/">Home</Link>
-                </li>
-                <li className="breadcrumb-item">
-                    Create Deck
-                </li>
-            </ol>
-        </nav>
-    )
 
     const handleSubmitForm = async (event) => {
         event.preventDefault();
@@ -54,8 +44,49 @@ const CreateDeck = () => {
         history.push('/');
     }
 
+    const navBar = (
+        <Breadcrumb>
+            <Breadcrumb.Item href="/">Home</Breadcrumb.Item>
+            <Breadcrumb.Item active>Create Deck</Breadcrumb.Item>
+        </Breadcrumb>
+    );
+
+
     return (
         <div className="createDeckPage">
+            {navBar}
+            <Form onSubmit={handleSubmitForm}>
+            <Form.Group className="mb-3" controlId="formDeckName">
+                <Form.Label>Name</Form.Label>
+                <Form.Control input name="name" placeholder={formData.name} value={formData.name} onChange={handleInputChange} required/>
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="formDeckDescription">
+                <Form.Label>Description</Form.Label>
+                <Form.Control 
+                    as="textarea" 
+                    name="description" 
+                    placeholder={formData.description} 
+                    value={formData.description} 
+                    onChange={handleInputChange} 
+                    required
+                />
+            </Form.Group>
+            <Button variant="outline-secondary" onClick={() => handleCancelButton()}>
+                Cancel
+            </Button>               
+            <Button variant="primary" type="submit">
+                Submit
+            </Button>
+            </Form>
+        </div>
+    )
+}
+
+export default CreateDeck;
+
+/**
+ *  <div className="createDeckPage">
             {navBar}
             <div className="createDeckForm">
                 <form onSubmit={handleSubmitForm}>
@@ -78,7 +109,4 @@ const CreateDeck = () => {
                 </form>
             </div>
         </div>
-    )
-}
-
-export default CreateDeck;
+ */
