@@ -10,6 +10,7 @@ const CreateDeck = () => {
         description: '',
     }
     const [ formData, setFormData ] = useState(initialFormState);
+    const [ deck, setDeck ] = useState({});
     const history = useHistory();
 
     const navBar = (
@@ -25,24 +26,31 @@ const CreateDeck = () => {
         </nav>
     )
 
-    const handleSubmitForm = async (event, {target}) => {
+    const handleSubmitForm = async (event) => {
         event.preventDefault();
-        // const newName = event.target.elements.name.value;
-        // const newDescription = event.target.elements.description.value;
-
-        setFormData((currentFormData) => ({
-            ...currentFormData,
-            [target.name]: target.value,
-        }))
-
-        const response = await createDeck({formData});
-
-        setFormData(initialFormState);
-        history.push(`/decks/${response.id}`);
+        console.log('form data', formData);
+        try{
+            const newDeck = await createDeck(formData);
+            console.log(newDeck);
+            setDeck(newDeck);
+            setFormData(initialFormState);
+            history.push(`/decks/${newDeck.id}`);
+        }
+        catch(error){
+            console.log('Error submitting form: ', error);
+        }
+        
     }
 
-    const handleCancelButton = (event) => {
-        event.preventDefault();
+    const handleInputChange = (event) => {
+        const { name, value } = event.target;
+        setFormData((currentFormData) => ({
+            ...currentFormData,
+            [name]: value,
+        }))
+    }
+
+    const handleCancelButton = () => {
         history.push('/');
     }
 
@@ -54,17 +62,17 @@ const CreateDeck = () => {
                     <div className="form-group">
                         <label>
                             <p>Name</p>
-                            <input name="name" value={formData.name}/>
+                            <input name="name" value={formData.name} onChange={handleInputChange}/>
                         </label>
                     </div>
                     <div className="form-group">
                         <label>
                             <p>Description</p>
-                            <textarea name="description" value={formData.name}/>
+                            <textarea name="description" value={formData.description}  onChange={handleInputChange}/>
                         </label>
                     </div>
                     <div className="button-group">
-                        <button onClick={handleCancelButton}>Cancel</button>
+                        <button onClick={() => handleCancelButton}>Cancel</button>
                         <button type="submit">Submit</button>
                     </div>
                 </form>

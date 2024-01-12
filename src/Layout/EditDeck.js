@@ -7,14 +7,12 @@ function EditDeck(){
     const { deckId } = useParams();
     const [ deck, setDeck ] = useState([]);
     const history = useHistory();
-    const [ formData, setFormData ] = useState({
-        name: '',
-        description: '',
-    })
     const initialFormState = {  
         name: '',
         description: '',
     };
+    const [ formData, setFormData ] = useState(initialFormState);
+    
 
     useEffect(() => {
         const abortController = new AbortController();

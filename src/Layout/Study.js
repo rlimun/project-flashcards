@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { readDeck } from "../utils/api";
 import { useParams, useHistory, Link } from "react-router-dom";
 
- const Study = () => {
+ function Study() {
     const { deckId } = useParams();
     const [ selectedDeck, setSelectedDeck ]  = useState([]);
     const [ loading, setLoading ] = useState(true);
@@ -69,15 +69,21 @@ import { useParams, useHistory, Link } from "react-router-dom";
         }
     }
 
+    const handleAddCards = async() => {
+        history.push(`/decks/${deckId}/cards/new`);
+    }
+
     /**
      * Returns JSX of when you don't have enough cards
      */
     const notEnoughCards = (
         <div>
             <p>Not enough cards</p>
-            <button>Add Cards</button>
+            <button onClick={() => handleAddCards()}>Add Cards</button>
         </div>
     )
+
+   
 
     /**
      * There is a breadcrumb navigation bar with links to home /, followed by the name of the deck being studied, 
@@ -115,7 +121,7 @@ import { useParams, useHistory, Link } from "react-router-dom";
                     <title>{selectedDeck.title}</title>
                     <div>
                         <h4>
-                            { currentCardIndex + 1} of {selectedDeck.cards.length}
+                           Card { currentCardIndex + 1} of {selectedDeck.cards.length}
                         </h4>
                         <p>{ isFront? selectedDeck.cards[currentCardIndex].front : selectedDeck.cards[currentCardIndex].back}</p>
                         { isFront && (

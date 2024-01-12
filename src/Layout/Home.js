@@ -63,7 +63,8 @@ const Home = () => {
             { decks.map((deck) => (
                 <div key={deck.id}
                 >
-                    <h4>{deck.name} {deck.cards.length} cards</h4>
+                    <h4>{deck.name}</h4>
+                    <h5> {deck.cards.length} cards</h5>
                     <p>{deck.description}</p>
                     <Link to={`/decks/${deck.id}`}>
                         <button onClick={() => handleViewClick(deck.id)}>
@@ -80,13 +81,9 @@ const Home = () => {
             ))}
         </div>
     )
-
 }
 
 
 export default Home;
 
-/*
-By wrapping it in an arrow function, you're ensuring that the handleDeleteButton function is only invoked when the button is 
-*/
               

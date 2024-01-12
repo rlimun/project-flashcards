@@ -8,18 +8,16 @@ import { deleteCard, readDeck } from "../utils/api";
  * @param {function} props.setDeck - Function to update the deck state
  * @returns {JSX.Element} React component
  */
-function CardsList({ deck, setDeck }) {
+function CardsList({deck, setDeck}) {
     const history = useHistory();
     const { deckId } = useParams();
-
+    
     // fetches the deck and updates the state
     useEffect(() => {
         const abortController = new AbortController();
         const fetchDeck = async() => {
             try {
-                const deck = await readDeck(deckId, abortController.signal);
-                console.log('data', deck);
-                setDeck(deck);
+                setDeck(await readDeck(deckId, abortController.signal));
             }
             catch(error){
                 console.log('Error fetching decks', error);
@@ -36,7 +34,7 @@ function CardsList({ deck, setDeck }) {
      * @param {string} cardId - the Id of the card to edit
      */
     const handleCardEditButton = async(cardId) => {
-        history.push(`/decks/:deckId/cards/${cardId}/edit`)
+        history.push(`/decks/${deckId}/cards/${cardId}/edit`)
     }
 
     /**
@@ -60,10 +58,11 @@ function CardsList({ deck, setDeck }) {
     return (
         <div>
             <h3>Cards</h3>
-            { deck.cards.map((card) => (
+            { deck.cards.map((card, index) => (
                 <div key={card.id}>
-                    <p>Question: {card.front}</p>
-                    <p>Answer: {card.back}</p>
+                    <h3>Card {index + 1} of {deck.cards.length}</h3>
+                    <p>{card.front}</p>
+                    <p>{card.back}</p>
                     <button onClick={() => handleCardEditButton(card.id)}>Edit</button>
                     <button onClick={() => handleCardDeleteButton(card.id)}>Delete</button>
                 </div>
