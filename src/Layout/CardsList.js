@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { deleteCard, readDeck } from "../utils/api";
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 
 /**
  * Component to display a list of cards for a specific deck
@@ -57,6 +59,42 @@ function CardsList({deck, setDeck}) {
 
     return (
         <div>
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                <h3>Cards</h3>
+            </div>
+            <div
+            className="modal show"
+            style={{ display: 'block', position: 'initial' }}
+            >
+            { deck.cards.map((card, index) => (
+                <div key={card.id}>
+                    <Modal.Dialog>
+                
+                <Modal.Header>
+                    <Modal.Title>Card {index + 1} of {deck.cards.length}</Modal.Title>
+                </Modal.Header>
+        
+                <Modal.Body>
+                <p>{card.front}</p>
+                <p>{card.back}</p>
+                </Modal.Body>
+        
+                <Modal.Footer>
+                <Button variant="secondary" onClick={() => handleCardEditButton(card.id)}>Edit</Button>
+                <Button variant="primary" onClick={() => handleCardDeleteButton(card.id)}>Delete changes</Button>
+                </Modal.Footer>
+            </Modal.Dialog>
+            </div>
+            ))}
+            </div>
+      </div>
+    )
+}
+
+export default CardsList;
+
+/**
+ *    <div>
             <h3>Cards</h3>
             { deck.cards.map((card, index) => (
                 <div key={card.id}>
@@ -68,7 +106,4 @@ function CardsList({deck, setDeck}) {
                 </div>
             ))}
         </div>
-    )
-}
-
-export default CardsList;
+ */

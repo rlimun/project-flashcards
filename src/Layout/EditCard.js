@@ -45,6 +45,7 @@ function EditCard(){
             try {
                 const fetchedCard = await readCard(cardId, abortController.signal);
                 setFormData({
+                    id: fetchedCard.id,
                     front: fetchedCard.front,
                     back: fetchedCard.back,
                 })
@@ -77,18 +78,14 @@ function EditCard(){
     const handleSubmitForm = async (event) => {
         const abortController = new AbortController();
         event.preventDefault();
-        
-        // const updatedCard = {
-        //     front: formData.front,
-        //     back: formData.back,
-        //     deckId: deckId,
-        //     id: cardId,
-        // }
+     
+        console.log('form data', formData);
         await updateCard(formData, abortController.signal);
-
-      //  const updatedCardData = await readCard(cardId, abortController.signal);
-       // setFormData(initialCardState);
-        history.push(`/decks/${deckId}/cards/${cardId}/edit`);
+        
+        const updatedCardData = await readCard(cardId, abortController.signal);
+      //  setCard(updatedCardData);
+        setFormData(initialCardState);
+        history.push(`/decks/${deckId}/cards/${cardId}`);
     }
 
     const handleInputChange = (event) => {

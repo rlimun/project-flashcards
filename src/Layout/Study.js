@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { readDeck } from "../utils/api";
-import { useParams, useHistory, Link } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+import Breadcrumb from 'react-bootstrap/Breadcrumb';
+import Alert from 'react-bootstrap/Alert';
+
 
  function Study() {
     const { deckId } = useParams();
@@ -22,6 +27,7 @@ import { useParams, useHistory, Link } from "react-router-dom";
                 const numCards = data.cards.length; //getting the number of cards and setting it to variable
                 setSelectedDeck(data); //set the data to the state
                 setNumCards(numCards); //set the number of cards
+                console.log('selected deck', data);
             } catch(error) {
                 console.error("error", error);
             }
@@ -78,8 +84,10 @@ import { useParams, useHistory, Link } from "react-router-dom";
      */
     const notEnoughCards = (
         <div>
-            <p>Not enough cards</p>
-            <button onClick={() => handleAddCards()}>Add Cards</button>
+            <Alert variant="secondary">
+                You need at least 3 cards to study.
+            </Alert>
+            <Button variant="success" onClick={() => handleAddCards()}>Add Cards</Button>
         </div>
     )
 
@@ -89,20 +97,14 @@ import { useParams, useHistory, Link } from "react-router-dom";
      * There is a breadcrumb navigation bar with links to home /, followed by the name of the deck being studied, 
      * and finally the text Study (e.g., Home/Rendering In React/Study).
      **/
-    const breadcrumb = (
-        <nav>
-            <ol className="breadcrumb">
-                <li className="breadcrumb-item">
-                    <Link to="/">Home</Link>
-                </li>
-                <li className="breadcrumb-item">
-                    <Link to={`/decks/${deckId}`}>{selectedDeck.name}</Link>
-                </li>
-                <li className="breadcrumb-item">
-                    Study
-                </li>
-            </ol>
-        </nav>
+    const navbar = (
+        <div>
+            <Breadcrumb>
+                <Breadcrumb.Item href="/">Home</Breadcrumb.Item>
+                <Breadcrumb.Item href={`/decks/${deckId}`}>{selectedDeck.name}</Breadcrumb.Item>
+                <Breadcrumb.Item active>Study</Breadcrumb.Item>
+            </Breadcrumb>
+        </div>  
     )
     // if data hasn't completed fetching, show Loading text
     if(loading) {
@@ -112,13 +114,43 @@ import { useParams, useHistory, Link } from "react-router-dom";
         <div>
             { numCards <= 2 ? (
                 <div>
-                    {breadcrumb}
+                    {navbar}
                     {notEnoughCards}
                 </div>
             ) : (
                 <div>  
-                    {breadcrumb}
-                    <title>{selectedDeck.title}</title>
+                    {navbar}
+                    <div className="modal show"
+                         style={{ display: 'block', position: 'initial' }}>
+                    <Modal.Dialog>
+                        <Modal.Header>
+                            <Modal.Title>{selectedDeck.name}</Modal.Title>
+                            <Modal.Title>Card {currentCardIndex + 1} of {selectedDeck.cards.length}</Modal.Title>
+                        </Modal.Header>
+                        
+                        <Modal.Body>
+                            { isFront? selectedDeck.cards[currentCardIndex].front : selectedDeck.cards[currentCardIndex].back}
+                        </Modal.Body>
+                        
+                        <Modal.Footer>
+                        { isFront && (
+                        <Button variant="outline-dark" onClick={flipCard}> Flip </Button>)}
+                        { !isFront && (
+                            <Button variant="primary" onClick={handleNextButtonClick}> Next </Button> )}
+                        </Modal.Footer>
+                    </Modal.Dialog>
+                    </div>
+                </div>
+            )}
+        </div>
+            );
+ }
+
+
+ export default Study;
+
+ /**
+  * <h3>{selectedDeck.name}</h3>
                     <div>
                         <h4>
                            Card { currentCardIndex + 1} of {selectedDeck.cards.length}
@@ -131,11 +163,4 @@ import { useParams, useHistory, Link } from "react-router-dom";
                             <button onClick={handleNextButtonClick}>Next</button>
                         )}
                     </div>
-                </div>
-            )}
-        </div>
-            );
- }
-
-
- export default Study;
+  */

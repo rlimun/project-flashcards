@@ -24,16 +24,18 @@ function Layout() {
         <Route path="/decks/:deckId/cards/:cardId/edit">
               <EditCard />
             </Route>
+            <Route path="/decks/:deckId/cards/:cardId">
+              <EditCard />
+            </Route>
+            <Route path="/decks/:deckId/cards/new">
+              <AddCard />
+            </Route>
             <Route path="/decks/:deckId/study">
             <Study/>
             </Route>
             <Route path="/decks/:deckId/edit">
               <EditDeck />
             </Route>
-            <Route path="/decks/:deckId/cards/new">
-              <AddCard />
-            </Route>
-            
             <Route path="/decks/new">
               <CreateDeck/>
               </Route>

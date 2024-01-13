@@ -3,17 +3,9 @@
 import React, { useState, useEffect } from "react";
 import { Link, useHistory, useParams } from "react-router-dom";
 import { readDeck, createCard } from "../utils/api";
-/**
- * 
- * @returns "cards": [
-    {
-      "front": "What does <Switch> do?",
-      "back": "Renders the first matching child <Route> ",
-      "deckId": 2,
-      "id": 5
-    }
-  ]
- */
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+
 
 function AddCard() {
     const initialFormState = {
@@ -53,6 +45,7 @@ function AddCard() {
         console.log('form data', formData);
         try{
             const newCard = await createCard(deckId, formData);
+            console.log('new card', newCard);
             setCard(newCard);
             setFormData(initialFormState);
             history.push("/");
@@ -70,9 +63,8 @@ function AddCard() {
         }))
     }
 
-    const handleDoneButton = (event) => {
-        event.preventDefault();
-        history.push('/${deck.name}');
+    const handleDoneButton = () => {
+        history.push(`/decks/${deck.id}`);
     }
 
     const navBar = (
@@ -82,7 +74,7 @@ function AddCard() {
                     <Link to="/">Home</Link>
                 </li>
                 <li className="breadcrumb-item">
-                    <Link to={`/decks/${deckId}`}>{ deck.name }</Link>
+                    <Link to={`/${deck.name}/`}>{ deck.name }</Link>
                 </li>
                 <li className="breadcrumb-item">
                     Add Card
@@ -92,31 +84,40 @@ function AddCard() {
     )
 
     return (
-        <div className="createCardPage">
-            {navBar}
-            <title>Add Card</title>
-            <div className="createCardForm">
-                <form onSubmit={handleSubmitForm}>
-                    <div className="form-group">
-                        <label>
-                            <p>Front</p>
-                            <textarea name="front" value={formData.front} onChange={handleInputChange}/>
-                        </label>
-                    </div>
-                    <div className="form-group">
-                        <label>
-                            <p>Back</p>
-                            <textarea name="back" value={formData.back}  onChange={handleInputChange}/>
-                        </label>
-                    </div>
-                    <div className="button-group">
-                        <button onClick={() => handleDoneButton()}>Cancel</button>
-                        <button type="submit">Submit</button>
-                    </div>
-                </form>
-            </div>
+        <div className="addCardPage">
+        {navBar}
+        <div className="addCardForm">
+            <Form onSubmit={handleSubmitForm}>
+                <Form.Group className="mb-3" controlId="formFront">
+                <Form.Label>Front</Form.Label>
+                <Form.Control 
+                    as="textarea"
+                    name="front"
+                    placeholder={formData.front}
+                    value={formData.front}
+                    onChange={handleInputChange}
+                    required
+                    />
+                </Form.Group>
+            
+                <Form.Group className="mb-3" controlId="formBack">
+                <Form.Label>Back</Form.Label>
+                <Form.Control 
+                    as="textarea"
+                    name="back"
+                    placeholder={formData.back}
+                    value={formData.back}
+                    onChange={handleInputChange}
+                    required
+                />
+                </Form.Group>
+                <Button variant="outline-secondary" onClick={() => handleDoneButton()}>Done</Button> 
+                <Button variant="primary" type="submit">Submit</Button>
+            </Form>
         </div>
+      </div>
     )
 }
 
 export default AddCard;
+

@@ -2,6 +2,8 @@
 import React, { useState, useEffect } from "react";
 import { useHistory, useParams, Link } from "react-router-dom";
 import { readDeck, updateDeck } from "../utils/api";
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 
 function EditDeck(){
     const { deckId } = useParams();
@@ -84,24 +86,33 @@ function EditDeck(){
         <div className="editDeckPage">
             {navBar}
             <div className="editDeckForm">
-                <form onSubmit={handleSubmitForm}>
-                    <div className="form-group">
-                        <label>
-                            <p>Name</p>
-                            <input name="name" value={formData.name} onChange={handleInputChange}/>
-                        </label>
-                    </div>
-                    <div className="form-group">
-                        <label>
-                            <p>Description</p>
-                            <textarea name="description" value={formData.description} onChange={handleInputChange}/>
-                        </label>
-                    </div>
-                    <div className="button-group">
-                        <button onClick={() => handleCancelButton()}>Cancel</button>
-                        <button type="submit">Submit</button>
-                    </div>
-                </form>
+                <Form onSubmit={handleSubmitForm}>
+                <Form.Group className="mb-3" controlId="formFront">
+                    <Form.Label>Name</Form.Label>
+                    <Form.Control 
+                        as="input"
+                        name="name"
+                        placeholder={formData.name}
+                        value={formData.name}
+                        onChange={handleInputChange}
+                        required
+                    />
+                </Form.Group>
+
+                <Form.Group className="mb-3" controlId="formBack">
+                    <Form.Label>Description</Form.Label>
+                    <Form.Control 
+                        as="textarea"
+                        name="description"
+                        placeholder={formData.description}
+                        value={formData.description}
+                        onChange={handleInputChange}
+                        required
+                    />
+                </Form.Group>
+                <Button variant="outline-secondary" onClick={() => handleCancelButton()}>Cancel</Button> 
+                <Button variant="primary" type="submit">Submit</Button>
+                </Form>
             </div>
         </div>
     )

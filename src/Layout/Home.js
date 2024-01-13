@@ -71,12 +71,12 @@ const Home = () => {
                         >
                         <Modal.Dialog>
                             <Modal.Header>
-                            <Modal.Title>{deck.name}</Modal.Title>
-                            <Modal.Title>{deck.cards.length} cards</Modal.Title>
+                                <Modal.Title>{deck.name}</Modal.Title>
+                                <Modal.Title>{deck.cards.length} cards</Modal.Title>
                             </Modal.Header>
 
                             <Modal.Body>
-                            <p>{deck.description}</p>
+                                <p>{deck.description}</p>
                             </Modal.Body>
 
                             <Modal.Footer>
@@ -84,7 +84,7 @@ const Home = () => {
                                 <Button variant="primary" onClick={() => handleViewClick(deck.id)}>View</Button>
                              </Link>
                              <Link to={`/decks/${deck.id}/study`}>
-                                <Button variant="success" onClick={() => handleStudyClick(deck.id)}>Study</Button>
+                                <Button variant="warning" onClick={() => handleStudyClick(deck.id)}>Study</Button>
                              </Link>
                             <Button variant="danger" onClick={() => handleDelete(deck.id)}> Delete </Button>
                             </Modal.Footer>

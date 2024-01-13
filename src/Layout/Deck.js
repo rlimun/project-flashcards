@@ -3,6 +3,8 @@ import { readDeck } from "../utils/api";
 import { Link, useParams, useHistory } from "react-router-dom";
 import CardsList from "./CardsList";
 import { deleteDeck } from "../utils/api";
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 
 
 const Deck = () => {
@@ -47,8 +49,7 @@ const Deck = () => {
         if (confirmed) {
             try {
                 await deleteDeck(deckId);
-               // setDecks((prevDecks) => prevDecks.filter((deck) => deck.id !== deckId));
-                history.go(0);
+                history.push('/');
             } catch(error){
                 console.error("Error deleting deck", error);
             }
@@ -72,12 +73,30 @@ const Deck = () => {
         <div>
             <div>
                 {navBar}
-                <h3>{deck.name}</h3>
-                <p>{deck.description}</p>
-                <button onClick={() => handleEditButton()}>Edit</button>
-                <button onClick={() => handleStudyButton()}>Study</button>
-                <button onClick={() => handleAddCardsButton()}>Add Cards</button> 
-                <button onClick={() => handleDeleteButton()}>Delete</button>
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                    <h3>Deck</h3>
+                </div>
+                <div
+                    className="modal show"
+                    style={{ display: 'block', position: 'initial' }}
+                    >
+                    <Modal.Dialog>
+                        <Modal.Header>
+                        <Modal.Title>{deck.name}</Modal.Title>
+                        </Modal.Header>
+
+                        <Modal.Body>
+                        <p>{deck.description}</p>
+                        </Modal.Body>
+
+                        <Modal.Footer>
+                        <Button variant="secondary" onClick={() => handleEditButton()}>Edit</Button>
+                        <Button variant="warning" onClick={() => handleStudyButton()}>Study</Button>
+                        <Button variant="success" onClick={() => handleAddCardsButton()}>Add Card</Button>
+                        <Button variant="danger" onClick={() => handleDeleteButton()}>Delete</Button>
+                        </Modal.Footer>
+                    </Modal.Dialog>
+                </div>
             </div>
             <div>
                 <CardsList deck={deck} setDeck={setDeck}/>
@@ -89,3 +108,12 @@ const Deck = () => {
 export default Deck;
 
 //01/10/2023 - this page goies to a 404, when i click on the edit deck button, it goes to 404
+
+/**
+ * <h3>{deck.name}</h3>
+                <p>{deck.description}</p>
+                <button onClick={() => handleEditButton()}>Edit</button>
+                <button onClick={() => handleStudyButton()}>Study</button>
+                <button onClick={() => handleAddCardsButton()}>Add Cards</button> 
+                <button onClick={() => handleDeleteButton()}>Delete</button>
+ */
