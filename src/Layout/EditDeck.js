@@ -4,6 +4,8 @@ import { useHistory, useParams, Link } from "react-router-dom";
 import { readDeck, updateDeck } from "../utils/api";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import Breadcrumb from 'react-bootstrap/Breadcrumb';
+
 
 function EditDeck(){
     const { deckId } = useParams();
@@ -36,17 +38,11 @@ function EditDeck(){
         }
     }, [deckId]);
 
-    const navBar = (
-        <nav>
-            <ol className="breadcrumb">
-                <li className="breadcrumb-item">
-                    <Link to="/">Home</Link>
-                </li>
-                <li className="breadcrumb-item">
-                    Edit Deck
-                </li>
-            </ol>
-        </nav>
+    const breadCrumb = (
+        <Breadcrumb>
+            <Breadcrumb.Item href="/">Home</Breadcrumb.Item>
+            <Breadcrumb.Item active>Edit Deck</Breadcrumb.Item>
+        </Breadcrumb>
     )
 
     const handleSubmitForm = async (event) => {
@@ -84,7 +80,7 @@ function EditDeck(){
 
     return (
         <div className="editDeckPage">
-            {navBar}
+            {breadCrumb}
             <div className="editDeckForm">
                 <Form onSubmit={handleSubmitForm}>
                 <Form.Group className="mb-3" controlId="formFront">

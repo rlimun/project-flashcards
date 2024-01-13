@@ -5,6 +5,8 @@ import CardsList from "./CardsList";
 import { deleteDeck } from "../utils/api";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import Breadcrumb from 'react-bootstrap/Breadcrumb';
+
 
 
 const Deck = () => {
@@ -56,23 +58,17 @@ const Deck = () => {
         }
     };
 
-    const navBar = (
-        <nav>
-            <ol className="breadcrumb">
-                <li className="breadcrumb-item">
-                    <Link to="/">Home</Link>
-                </li>
-                <li className="breadcrumb-item">
-                    {deck.name}
-                </li>
-            </ol>
-        </nav>
+    const breadCrumb = (
+        <Breadcrumb>
+            <Breadcrumb.Item href="/">Home</Breadcrumb.Item>
+            <Breadcrumb.Item active>{deck.name}</Breadcrumb.Item>
+        </Breadcrumb>
     )
 
     return (
         <div>
             <div>
-                {navBar}
+                {breadCrumb}
                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                     <h3>Deck</h3>
                 </div>
