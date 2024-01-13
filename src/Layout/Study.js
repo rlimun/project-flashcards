@@ -85,6 +85,9 @@ import Alert from 'react-bootstrap/Alert';
     const notEnoughCards = (
         <div>
             <Alert variant="secondary">
+                Not enough cards. 
+            </Alert>
+            <Alert variant="secondary">
                 You need at least 3 cards to study.
             </Alert>
             <Button variant="success" onClick={() => handleAddCards()}>Add Cards</Button>
@@ -124,7 +127,6 @@ import Alert from 'react-bootstrap/Alert';
                          style={{ display: 'block', position: 'initial' }}>
                     <Modal.Dialog>
                         <Modal.Header>
-                            <Modal.Title>{selectedDeck.name}</Modal.Title>
                             <Modal.Title>Card {currentCardIndex + 1} of {selectedDeck.cards.length}</Modal.Title>
                         </Modal.Header>
                         

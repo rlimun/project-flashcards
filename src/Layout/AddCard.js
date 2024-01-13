@@ -5,6 +5,7 @@ import { Link, useHistory, useParams } from "react-router-dom";
 import { readDeck, createCard } from "../utils/api";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import Breadcrumb from 'react-bootstrap/Breadcrumb';
 
 
 function AddCard() {
@@ -67,25 +68,17 @@ function AddCard() {
         history.push(`/decks/${deck.id}`);
     }
 
-    const navBar = (
-        <nav>
-            <ol className="breadcrumb">
-                <li className="breadcrumb-item">
-                    <Link to="/">Home</Link>
-                </li>
-                <li className="breadcrumb-item">
-                    <Link to={`/${deck.name}/`}>{ deck.name }</Link>
-                </li>
-                <li className="breadcrumb-item">
-                    Add Card
-                </li>
-            </ol>
-        </nav>
+    const breadCrumb = (
+        <Breadcrumb>
+            <Breadcrumb.Item href="/">Home</Breadcrumb.Item>
+            <Breadcrumb.Item href={`/decks/${deckId}/`}>{deck.name}</Breadcrumb.Item>
+            <Breadcrumb.Item active>Add Card</Breadcrumb.Item>
+        </Breadcrumb>
     )
 
     return (
         <div className="addCardPage">
-        {navBar}
+        {breadCrumb}
         <div className="addCardForm">
             <Form onSubmit={handleSubmitForm}>
                 <Form.Group className="mb-3" controlId="formFront">
@@ -121,3 +114,6 @@ function AddCard() {
 
 export default AddCard;
 
+/**
+ * NEED TO FIX: WHY DOES CLICKING ON ADD CARDS ON STUDY PAGE TAKE ME TO EDIT CARD PAGE INSTEAD OF ADD CARD
+ */

@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useHistory, useParams, Link } from "react-router-dom";
 import { readDeck, readCard, updateCard } from "../utils/api";
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import Breadcrumb from 'react-bootstrap/Breadcrumb';
+
 
 function EditCard(){
     const { deckId, cardId } = useParams();
@@ -8,6 +12,7 @@ function EditCard(){
         name: '',
         description:'',
     });
+    
     const history = useHistory();
     //const [ loading, setLoading ] = useState(true);
     const initialCardState = {  
@@ -16,7 +21,7 @@ function EditCard(){
         deckId: '',
         id: '',
     };
-
+    const [ card, setCard ] = useState(initialCardState);
     const [ formData, setFormData ] = useState(initialCardState);
     
 
@@ -48,8 +53,8 @@ function EditCard(){
                     id: fetchedCard.id,
                     front: fetchedCard.front,
                     back: fetchedCard.back,
+                    deckId: +deckId,
                 })
-                updateCard(fetchedCard);
             } catch(error){
                 console.log('Error fetching cards ', error);
             }
@@ -60,32 +65,22 @@ function EditCard(){
         }
     }, [cardId]);
 
-    ///decks/:deckId/cards/:cardId/edit
-    const navBar = (
-        <nav>
-            <ol className="breadcrumb">
-                <li className="breadcrumb-item">
-                    <Link to="/">Home</Link>
-                </li>
-                <li className="breadcrumb-item">
-                    <Link to={`/${deck.name}/`}>{deck.name} </Link>
-                </li>
-                <li className="breadcrumb-item"> Edit card</li>
-            </ol>
-        </nav>
+    const breadCrumb = (
+        <Breadcrumb>
+            <Breadcrumb.Item href="/">Home</Breadcrumb.Item>
+            <Breadcrumb.Item href={`/${deck.name}`}>{deck.name}</Breadcrumb.Item>
+            <Breadcrumb.Item active>Edit Card</Breadcrumb.Item>
+        </Breadcrumb>
     )
 
     const handleSubmitForm = async (event) => {
         const abortController = new AbortController();
         event.preventDefault();
-     
-        console.log('form data', formData);
         await updateCard(formData, abortController.signal);
-        
         const updatedCardData = await readCard(cardId, abortController.signal);
-      //  setCard(updatedCardData);
+        setCard(updatedCardData);
         setFormData(initialCardState);
-        history.push(`/decks/${deckId}/cards/${cardId}`);
+        history.push(`/decks/${deckId}`);
     }
 
     const handleInputChange = (event) => {
@@ -102,29 +97,37 @@ function EditCard(){
         history.push(`/decks/${deckId}`);
     }
 
-
     return (
         <div className="editCardPage">
-            {navBar}
+            {breadCrumb}
             <div className="editCardForm">
-                <form onSubmit={handleSubmitForm}>
-                    <div className="form-group">
-                        <label>
-                            <p>Front</p>
-                            <textarea name="front" value={formData.front} onChange={handleInputChange}/>
-                        </label>
-                    </div>
-                    <div className="form-group">
-                        <label>
-                            <p>Back</p>
-                            <textarea name="back" value={formData.back} onChange={handleInputChange}/>
-                        </label>
-                    </div>
-                    <div className="button-group">
-                        <button onClick={() => handleCancelButton()}>Done</button>
-                        <button type="submit">Save</button>
-                    </div>
-                </form>
+                <Form onSubmit={handleSubmitForm}>
+                    <Form.Group className="mb-3" controlId="formFront">
+                        <Form.Label>Front</Form.Label>
+                        <Form.Control
+                            as="textarea"
+                            name="front"
+                            placeholder={formData.front}
+                            value={formData.front}
+                            onChange={handleInputChange}
+                            required
+                        />
+                    </Form.Group>
+
+                    <Form.Group className="mb-3" controlId="formBack">
+                        <Form.Label>Back</Form.Label>
+                        <Form.Control
+                            as="textarea"
+                            name="back"
+                            placeholder={formData.back}
+                            value={formData.back}
+                            onChange={handleInputChange}
+                            required
+                        />
+                    </Form.Group>
+                    <Button variant="outline-secondary" onClick={() => handleCancelButton()}>Done</Button>
+                    <Button variant="primary" type="submit">Submit</Button>
+                </Form>
             </div>
         </div>
     )
