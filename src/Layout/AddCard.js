@@ -1,7 +1,7 @@
 //path - /decks/:deckId/cards/new
 
 import React, { useState, useEffect } from "react";
-import { Link, useHistory, useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { readDeck, createCard } from "../utils/api";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';

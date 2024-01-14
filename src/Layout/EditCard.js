@@ -5,7 +5,10 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 
-
+/**
+ * 
+ * @returns 
+ */
 function EditCard(){
     const { deckId, cardId } = useParams();
     const [ deck, setDeck ] = useState({
@@ -65,14 +68,6 @@ function EditCard(){
         }
     }, [cardId]);
 
-    const breadCrumb = (
-        <Breadcrumb>
-            <Breadcrumb.Item href="/">Home</Breadcrumb.Item>
-            <Breadcrumb.Item href={`/${deck.name}`}>{deck.name}</Breadcrumb.Item>
-            <Breadcrumb.Item active>Edit Card</Breadcrumb.Item>
-        </Breadcrumb>
-    )
-
     const handleSubmitForm = async (event) => {
         const abortController = new AbortController();
         event.preventDefault();
@@ -96,6 +91,14 @@ function EditCard(){
     const handleCancelButton = () => {
         history.push(`/decks/${deckId}`);
     }
+
+    const breadCrumb = (
+        <Breadcrumb>
+            <Breadcrumb.Item href="/">Home</Breadcrumb.Item>
+            <Breadcrumb.Item href={`/decks/${deck.id}`}>{deck.name}</Breadcrumb.Item>
+            <Breadcrumb.Item active>Edit Card</Breadcrumb.Item>
+        </Breadcrumb>
+    )
 
     return (
         <div className="editCardPage">
