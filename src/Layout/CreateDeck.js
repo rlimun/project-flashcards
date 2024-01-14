@@ -5,8 +5,11 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 
-
-const CreateDeck = () => {
+/**
+ * Functional component that creates a new deck
+ * @returns {JSX.Element} React component
+ */
+function CreateDeck() {
     const initialFormState = {
         name: '',
         description: '',
@@ -17,10 +20,8 @@ const CreateDeck = () => {
 
     const handleSubmitForm = async (event) => {
         event.preventDefault();
-        console.log('form data', formData);
         try{
             const newDeck = await createDeck(formData);
-            console.log(newDeck);
             setDeck(newDeck);
             setFormData(initialFormState);
             history.push(`/decks/${newDeck.id}`);
@@ -31,6 +32,11 @@ const CreateDeck = () => {
         
     }
 
+    /**
+     * Handles the input changes in the form 
+     * - This extracts the name and value from the changed input fields
+     * @param {event} event 
+     */
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         setFormData((currentFormData) => ({
@@ -39,11 +45,15 @@ const CreateDeck = () => {
         }))
     }
 
+    /**
+     * Handles the cancel button onclick event
+     * When the user clicks cancel, they are navigated back to the homepage
+     */
     const handleCancelButton = () => {
         history.push('/');
     }
 
-    const navBar = (
+    const breadCrumb = (
         <Breadcrumb>
             <Breadcrumb.Item href="/">Home</Breadcrumb.Item>
             <Breadcrumb.Item active>Create Deck</Breadcrumb.Item>
@@ -53,7 +63,7 @@ const CreateDeck = () => {
 
     return (
         <div className="createDeckPage">
-            {navBar}
+            {breadCrumb}
             <Form onSubmit={handleSubmitForm}>
             <Form.Group className="mb-3" controlId="formDeckName">
                 <Form.Label>Name</Form.Label>
@@ -83,29 +93,3 @@ const CreateDeck = () => {
 }
 
 export default CreateDeck;
-
-/**
- *  <div className="createDeckPage">
-            {navBar}
-            <div className="createDeckForm">
-                <form onSubmit={handleSubmitForm}>
-                    <div className="form-group">
-                        <label>
-                            <p>Name</p>
-                            <input name="name" value={formData.name} onChange={handleInputChange}/>
-                        </label>
-                    </div>
-                    <div className="form-group">
-                        <label>
-                            <p>Description</p>
-                            <textarea name="description" value={formData.description}  onChange={handleInputChange}/>
-                        </label>
-                    </div>
-                    <div className="button-group">
-                        <button onClick={() => handleCancelButton}>Cancel</button>
-                        <button type="submit">Submit</button>
-                    </div>
-                </form>
-            </div>
-        </div>
- */

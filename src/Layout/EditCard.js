@@ -6,8 +6,8 @@ import Form from 'react-bootstrap/Form';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 
 /**
- * 
- * @returns 
+ * Functional EditCard component that allows editing details of a specific card within a deck
+ * @returns {JSX.Element} React component for editing a card within a deck
  */
 function EditCard(){
     const { deckId, cardId } = useParams();
@@ -30,11 +30,10 @@ function EditCard(){
 
     useEffect(() => {
         const abortController = new AbortController();
-        console.log('deck id', deckId);
         const fetchDeck = async() => {
             try {
                 const loadedDeck = await readDeck(deckId, abortController.signal);
-                console.log('deck', loadedDeck);
+
                 setDeck(loadedDeck);
             } catch(error){
                 console.log('Error fetching cards ', error);
@@ -68,6 +67,10 @@ function EditCard(){
         }
     }, [cardId]);
 
+    /**
+     * Handles the form submission for updating a card
+     * @param {event} event - the form submission event
+     */
     const handleSubmitForm = async (event) => {
         const abortController = new AbortController();
         event.preventDefault();
@@ -78,6 +81,11 @@ function EditCard(){
         history.push(`/decks/${deckId}`);
     }
 
+    /**
+     * Handles the input changes in the form
+     * - This extracts name and value from the changed input fields
+     * @param {event} event - the input change event
+     */
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         setFormData((currentFormData) => (
@@ -88,6 +96,10 @@ function EditCard(){
         ))
     }
 
+    /**
+     * Handles the Cancel button
+     * - When a user clicks Cancel, it navigates them back to the specific deck page
+     */
     const handleCancelButton = () => {
         history.push(`/decks/${deckId}`);
     }

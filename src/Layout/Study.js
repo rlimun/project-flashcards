@@ -6,7 +6,10 @@ import Modal from 'react-bootstrap/Modal';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import Alert from 'react-bootstrap/Alert';
 
-
+/**
+ * Functional Study component that displays the study page for the selected deck
+ * @returns {JSX.Element} - The Study component JSX.
+ */
  function Study() {
     const { deckId } = useParams();
     const [ selectedDeck, setSelectedDeck ]  = useState([]);
@@ -27,7 +30,6 @@ import Alert from 'react-bootstrap/Alert';
                 const numCards = data.cards.length; //getting the number of cards and setting it to variable
                 setSelectedDeck(data); //set the data to the state
                 setNumCards(numCards); //set the number of cards
-                console.log('selected deck', data);
             } catch(error) {
                 console.error("error", error);
             }
@@ -37,13 +39,11 @@ import Alert from 'react-bootstrap/Alert';
             };
         }
         fetchData();
-        //note: deckId is dependency array and means that the effect (fetchData) function will only run when the value of deckId changes
-        //note: if deckId remains the same between renders, the effect will not be re-executed
     }, [deckId]);
 
 
     /**
-     * Flip card function that sets front of the card to true or false
+     * Flip card function that toggles between the front and back fo the card
      **/
     function flipCard(){
         if(isFront){
@@ -55,9 +55,9 @@ import Alert from 'react-bootstrap/Alert';
     }
 
     /**
-     * Handles the functionality of clicking on the next button
-     * It will go to the next card until it hits the last card
-     * Once you are at the last card, it will prompt you to restart cards or cancel
+     * Handles Next button
+     * - It will go to the next card until it hits the last card
+     * - Once you are at the last card, it will prompt you to restart cards or cancel
      */
     const handleNextButtonClick = async() => {
         if(currentCardIndex < selectedDeck.cards.length - 1){
@@ -75,6 +75,10 @@ import Alert from 'react-bootstrap/Alert';
         }
     }
 
+    /**
+     * Handles the Add Card button
+     * - When a user clicks on the Add Cards button, it will navigate to the Add card page of that specific deck
+     */
     const handleAddCards = async() => {
         history.push(`/decks/${deckId}/cards/new`);
     }
@@ -94,13 +98,7 @@ import Alert from 'react-bootstrap/Alert';
         </div>
     )
 
-   
-
-    /**
-     * There is a breadcrumb navigation bar with links to home /, followed by the name of the deck being studied, 
-     * and finally the text Study (e.g., Home/Rendering In React/Study).
-     **/
-    const navbar = (
+    const breadCrumb = (
         <div>
             <Breadcrumb>
                 <Breadcrumb.Item href="/">Home</Breadcrumb.Item>
@@ -109,6 +107,7 @@ import Alert from 'react-bootstrap/Alert';
             </Breadcrumb>
         </div>  
     )
+
     // if data hasn't completed fetching, show Loading text
     if(loading) {
         return <p>Loading...</p>
@@ -117,12 +116,12 @@ import Alert from 'react-bootstrap/Alert';
         <div>
             { numCards <= 2 ? (
                 <div>
-                    {navbar}
+                    {breadCrumb}
                     {notEnoughCards}
                 </div>
             ) : (
                 <div>  
-                    {navbar}
+                    {breadCrumb}
                     <div className="modal show"
                          style={{ display: 'block', position: 'initial' }}>
                     <Modal.Dialog>
@@ -150,19 +149,3 @@ import Alert from 'react-bootstrap/Alert';
 
 
  export default Study;
-
- /**
-  * <h3>{selectedDeck.name}</h3>
-                    <div>
-                        <h4>
-                           Card { currentCardIndex + 1} of {selectedDeck.cards.length}
-                        </h4>
-                        <p>{ isFront? selectedDeck.cards[currentCardIndex].front : selectedDeck.cards[currentCardIndex].back}</p>
-                        { isFront && (
-                            <button onClick={flipCard}>Flip</button>
-                        )}
-                        { !isFront && (
-                            <button onClick={handleNextButtonClick}>Next</button>
-                        )}
-                    </div>
-  */

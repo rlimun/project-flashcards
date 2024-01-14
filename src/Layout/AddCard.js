@@ -7,7 +7,9 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 
-
+/**
+ * Functional component that adds a new card to a deck
+ */
 function AddCard() {
     const initialFormState = {
         front: '',
@@ -41,12 +43,14 @@ function AddCard() {
         fetchDeck();
     }, [deckId]);
 
+    /**
+     * When a user submits the form, it takes in the from from the user to create a new card.
+     * @param {*} event - the form submission event
+     */
     const handleSubmitForm = async (event) => {
         event.preventDefault();
-        console.log('form data', formData);
         try{
             const newCard = await createCard(deckId, formData);
-            console.log('new card', newCard);
             setCard(newCard);
             setFormData(initialFormState);
             history.push("/");
@@ -56,6 +60,11 @@ function AddCard() {
         }
     }
 
+    /**
+     * Handles the input changes in the form
+     * - This extracts the name and value from the changed input fields
+     * @param {event} event - the input change event
+     */
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         setFormData((currentFormData) => ({
@@ -64,6 +73,10 @@ function AddCard() {
         }))
     }
 
+    /**
+     * Handles the Done button
+     * - When a user clicks done, it navigates them back to the specific deck page
+     */
     const handleDoneButton = () => {
         history.push(`/decks/${deck.id}`);
     }
@@ -113,7 +126,3 @@ function AddCard() {
 }
 
 export default AddCard;
-
-/**
- * NEED TO FIX: WHY DOES CLICKING ON ADD CARDS ON STUDY PAGE TAKE ME TO EDIT CARD PAGE INSTEAD OF ADD CARD
- */

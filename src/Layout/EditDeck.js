@@ -6,7 +6,10 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 
-
+/**
+ * Functional EditDeck component that allows editing details of a sepcific deck
+ * @returns {JSX.Element} React component for editing a deck
+ */
 function EditDeck(){
     const { deckId } = useParams();
     const [ deck, setDeck ] = useState([]);
@@ -23,7 +26,6 @@ function EditDeck(){
         const fetchDeck = async() => {
             try {
                 const deck = await readDeck(deckId, abortController.signal);
-                console.log('data', deck);
                 setFormData({
                     name: deck.name,
                     description: deck.description,
@@ -38,13 +40,10 @@ function EditDeck(){
         }
     }, [deckId]);
 
-    const breadCrumb = (
-        <Breadcrumb>
-            <Breadcrumb.Item href="/">Home</Breadcrumb.Item>
-            <Breadcrumb.Item active>Edit Deck</Breadcrumb.Item>
-        </Breadcrumb>
-    )
-
+    /**
+     * Handles the form submission for updating a deck
+     * @param {event} event - the form submission event
+     */
     const handleSubmitForm = async (event) => {
         const abortController = new AbortController();
         event.preventDefault();
@@ -62,6 +61,11 @@ function EditDeck(){
         history.push(`/decks/${deckId}`);
     }
 
+     /**
+     * Handles the input changes in the form
+     * - This extracts name and value from the changed input fields
+     * @param {event} event - the input change event
+     */
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         setFormData((currentFormData) => (
@@ -72,11 +76,21 @@ function EditDeck(){
         ))
     }
 
+    /**
+     * Handles the Cancel button
+     * - When a user clicks Cancel, it navigates them back to the specific deck page
+     */
     const handleCancelButton = () => {
        // event.preventDefault();
         history.push(`/decks/${deckId}`);
     }
 
+    const breadCrumb = (
+        <Breadcrumb>
+            <Breadcrumb.Item href="/">Home</Breadcrumb.Item>
+            <Breadcrumb.Item active>Edit Deck</Breadcrumb.Item>
+        </Breadcrumb>
+    )
 
     return (
         <div className="editDeckPage">

@@ -8,8 +8,12 @@ import Modal from 'react-bootstrap/Modal';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 
 
-
-const Deck = () => {
+/**
+ * Functional Deck component that displays details of the deck, allows editing, studying, adding
+ * cards, and deleting the deck
+ * @returns {JSX.Element} React component for displaying and managing a deck
+ */
+function Deck(){
     const { deckId } = useParams();
     const [ deck, setDeck ] = useState({ cards: []});
     const history = useHistory();
@@ -21,7 +25,6 @@ const Deck = () => {
                 const deckData = await readDeck(deckId, abortController.signal);
                // const data = await response.json();
                 setDeck(deckData);
-                console.log('deck data', deckData);
             }
             catch(error){
                 console.log('Error fetching deck ', error);
@@ -33,19 +36,33 @@ const Deck = () => {
         }
     }, [deckId]);
 
+    /**
+     * Handles the Edit button 
+     * When a user clicks on the edit button, they are redirected to the edit page of that deck
+     */
     const handleEditButton = () => {
-        console.log('you got here with deck id', deckId);
         history.push(`/decks/${deckId}/edit`);
     }
 
+    /**
+     * Handles the Study button 
+     * When a user clicks on the Study button, they are redirected to the study page of that deck
+     */
     const handleStudyButton = () => {
         history.push(`/decks/${deckId}/study`);
     }
 
+    /**
+     * Handles the Add Card button 
+     * When a user clicks on the Add Card button, they are redirected to the Add cards page of that deck
+     */
     const handleAddCardsButton = () => {
         history.push(`/decks/${deckId}/cards/new`);
     }
 
+    /**
+     * Deletes the deck
+     */
     const handleDeleteButton = async () => {
         const confirmed = window.confirm('Delete this deck? You will not be able to recover it');
         if (confirmed) {
@@ -102,14 +119,3 @@ const Deck = () => {
 }
 
 export default Deck;
-
-//01/10/2023 - this page goies to a 404, when i click on the edit deck button, it goes to 404
-
-/**
- * <h3>{deck.name}</h3>
-                <p>{deck.description}</p>
-                <button onClick={() => handleEditButton()}>Edit</button>
-                <button onClick={() => handleStudyButton()}>Study</button>
-                <button onClick={() => handleAddCardsButton()}>Add Cards</button> 
-                <button onClick={() => handleDeleteButton()}>Delete</button>
- */

@@ -4,9 +4,11 @@ import { listDecks, deleteDeck } from "../utils/api";
 import  Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 
-
-const Home = () => {
-    console.log("Home component is rendering");
+/**
+ * Functional Home component that displays the homepage with a list of decks
+ * @returns {JSX.Element} - the Home component JSX
+ */
+function Home(){
     const [decks, setDecks] = useState([]);
     const history = useHistory();
 
@@ -28,22 +30,36 @@ const Home = () => {
         }
     }, []);
 
+    /**
+     * Handles the Study button 
+     * - When a user clicks on the study button, it navigates to the study page for the selected deck.
+     * @param {deckId} deckId - The ID of the deck to study.
+    */
     const handleStudyClick = (deckId) => {
          history.push(`/decks/${deckId}/study`);
      }
  
-     const handleCreateDeckClick = (deckId) => {
-         history.push("/decks/new");
-     }
+    /**
+    * Handles the CreateDeck button
+    * - When a user clicks on Create Deck button, it navigates them to the create deck page
+    */
+    const handleCreateDeckClick = () => {
+        history.push("/decks/new");
+    }
  
-     const handleViewClick = (deckId) => {
+    /**
+     * Handles the View Click button
+     * - When a user clicks on this button, it navigates them to the View page of the selected deck
+     * @param {deckId} deckId  - The ID of the deck to view
+     */
+    const handleViewClick = (deckId) => {
          history.push(`/decks/${deckId}`);
-     }
+    }
 
     /** 
-    * Delete Deck prompt
-    * When the user clicks the Delete button, a warning message is shown and the user can click OK or Cancel. 
-    * If the user clicks OK, the deck is deleted and the deleted deck is no longer visible on the Home screen.
+    * Handles the Delete button
+    * - When the user clicks the Delete button, a warning message is shown and the user can click OK or Cancel. 
+    * @param {deckId} deckId - The ID of the deck to delete
     **/
     const handleDelete = async (deckId) => {
         const abortController = new AbortController();
@@ -99,21 +115,3 @@ const Home = () => {
 
 
 export default Home;
-
-              
-/**
- *  <h4>{deck.name}</h4>
-                    <h5> {deck.cards.length} cards</h5>
-                    <p>{deck.description}</p>
-                    <Link to={`/decks/${deck.id}`}>
-                        <button type="button" class="btn btn-primary" onClick={() => handleViewClick(deck.id)}>
-                            View
-                        </button>
-                    </Link>
-                    <Link to={`/decks/${deck.id}/study`}>
-                        <button onClick={() => handleStudyClick(deck.id)}> 
-                            Study
-                        </button>
-                    </Link>
-                    <button name="delete" onClick={() => handleDelete(deck.id)}> Delete </button>
- */
