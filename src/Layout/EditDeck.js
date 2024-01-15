@@ -81,7 +81,6 @@ function EditDeck(){
      * - When a user clicks Cancel, it navigates them back to the specific deck page
      */
     const handleCancelButton = () => {
-       // event.preventDefault();
         history.push(`/decks/${deckId}`);
     }
 

@@ -23,7 +23,6 @@ function Deck(){
         const fetchDeck = async() => {
             try {
                 const deckData = await readDeck(deckId, abortController.signal);
-               // const data = await response.json();
                 setDeck(deckData);
             }
             catch(error){

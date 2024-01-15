@@ -7,7 +7,7 @@ import Breadcrumb from 'react-bootstrap/Breadcrumb';
 
 /**
  * Functional component that creates a new deck
- * @returns {JSX.Element} React component
+ * @returns {JSX.Element} React component that renders the create deck form with inputs
  */
 function CreateDeck() {
     const initialFormState = {
@@ -35,7 +35,7 @@ function CreateDeck() {
     /**
      * Handles the input changes in the form 
      * - This extracts the name and value from the changed input fields
-     * @param {event} event 
+     * @param {event} event - the input change event
      */
     const handleInputChange = (event) => {
         const { name, value } = event.target;

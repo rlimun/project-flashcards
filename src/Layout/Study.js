@@ -15,7 +15,6 @@ import Alert from 'react-bootstrap/Alert';
     const [ selectedDeck, setSelectedDeck ]  = useState([]);
     const [ loading, setLoading ] = useState(true);
     const [ isFront, setIsFront ] = useState(true);
-    //note: useState initializes a state variable named numCards with an initial value of 0 and setNumCards is a setter function used to update the value of numCards
     const [ numCards, setNumCards ]  = useState(0); 
     const [ currentCardIndex, setCurrentCardIndex ] = useState(0);
     const history = useHistory();
@@ -25,7 +24,6 @@ import Alert from 'react-bootstrap/Alert';
         async function fetchData() {
             const abortController = new AbortController();
             try {
-                //You must use the readDeck() function from src/utils/api/index.js to load the deck that is being studied.
                 const data = await readDeck(deckId, abortController.signal);
                 const numCards = data.cards.length; //getting the number of cards and setting it to variable
                 setSelectedDeck(data); //set the data to the state

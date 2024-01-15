@@ -10,6 +10,7 @@ import Alert from 'react-bootstrap/Alert';
 
 /**
  * Functional component that adds a new card to a deck
+ * @returns {JSX.Element} React component that renders add card form from CardForm
  */
 function AddCard() {
     const initialFormState = {
@@ -47,7 +48,7 @@ function AddCard() {
 
     /**
      * When a user submits the form, it takes in the from from the user to create a new card.
-     * @param {*} event - the form submission event
+     * @param {event} event - the form submission event
      */
     const handleSubmitForm = async (event) => {
         event.preventDefault();
