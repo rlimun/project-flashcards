@@ -6,6 +6,7 @@ import { readDeck, createCard } from "../utils/api";
 import CardForm from "./CardForm";
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import Button from 'react-bootstrap/Button';
+import Alert from 'react-bootstrap/Alert';
 
 /**
  * Functional component that adds a new card to a deck
@@ -27,6 +28,7 @@ function AddCard() {
     })
     const { deckId } = useParams();
     const history = useHistory();
+    const [ showAlert, setShowAlert ] = useState(false)
 
    useEffect(() => {
     const abortController = new AbortController();
@@ -55,7 +57,10 @@ function AddCard() {
             setFormData(initialFormState);
             const loadedDeck = await readDeck(deckId);
             setDeck(loadedDeck);
-            history.push(`/decks/${deck.id}`)
+            setShowAlert(true);
+            setTimeout(() => {
+                setShowAlert(false);
+            }, 2000);
         }
         catch(error){
             console.log('Error submitting form: ', error);
@@ -102,6 +107,10 @@ function AddCard() {
             />
             <Button variant="outline-secondary" onClick={handleDoneButton}>Done</Button>
             <Button variant="primary" type="submit" onClick={handleSubmitForm}>Save</Button>
+
+            <Alert show={showAlert} variant="success" style={{ marginTop: '20px' }}>
+                    Card has been added
+                </Alert>
             </div>
     </div>  
     )
