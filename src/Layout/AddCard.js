@@ -100,7 +100,7 @@ function AddCard() {
                 handleInputChange={handleInputChange}
                 handleSubmitForm={handleSubmitForm}
             />
-            <Button variant="outline-secondary" onClick={() => handleDoneButton()}>Done</Button>
+            <Button variant="outline-secondary" onClick={handleDoneButton}>Done</Button>
             <Button variant="primary" type="submit" onClick={handleSubmitForm}>Save</Button>
             </div>
     </div>  

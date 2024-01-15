@@ -92,18 +92,3 @@ function CardsList({deck, setDeck}) {
 }
 
 export default CardsList;
-
-/**
- *    <div>
-            <h3>Cards</h3>
-            { deck.cards.map((card, index) => (
-                <div key={card.id}>
-                    <h3>Card {index + 1} of {deck.cards.length}</h3>
-                    <p>{card.front}</p>
-                    <p>{card.back}</p>
-                    <button onClick={() => handleCardEditButton(card.id)}>Edit</button>
-                    <button onClick={() => handleCardDeleteButton(card.id)}>Delete</button>
-                </div>
-            ))}
-        </div>
- */

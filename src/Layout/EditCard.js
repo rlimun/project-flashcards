@@ -121,7 +121,7 @@ function EditCard(){
                 handleSubmitForm={handleSubmitForm}
                 handleCancelButton={() => history.push(`/decks/${deckId}`)}
             />
-            <Button variant="outline-secondary" onClick={() => handleCancelButton()}>Cancel</Button>
+            <Button variant="outline-secondary" onClick={handleCancelButton}>Cancel</Button>
             <Button variant="primary" type="submit" onClick={handleSubmitForm}>Save</Button>
             </div>
         </div>
