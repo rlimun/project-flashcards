@@ -3,9 +3,9 @@
 import React, { useState, useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { readDeck, createCard } from "../utils/api";
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
+import CardForm from "./CardForm";
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
+import Button from 'react-bootstrap/Button';
 
 /**
  * Functional component that adds a new card to a deck
@@ -53,7 +53,9 @@ function AddCard() {
             const newCard = await createCard(deckId, formData);
             setCard(newCard);
             setFormData(initialFormState);
-            history.push("/");
+            const loadedDeck = await readDeck(deckId);
+            setDeck(loadedDeck);
+            history.push(`/decks/${deck.id}`)
         }
         catch(error){
             console.log('Error submitting form: ', error);
@@ -93,35 +95,15 @@ function AddCard() {
         <div className="addCardPage">
         {breadCrumb}
         <div className="addCardForm">
-            <Form onSubmit={handleSubmitForm}>
-                <Form.Group className="mb-3" controlId="formFront">
-                <Form.Label>Front</Form.Label>
-                <Form.Control 
-                    as="textarea"
-                    name="front"
-                    placeholder={formData.front}
-                    value={formData.front}
-                    onChange={handleInputChange}
-                    required
-                    />
-                </Form.Group>
-            
-                <Form.Group className="mb-3" controlId="formBack">
-                <Form.Label>Back</Form.Label>
-                <Form.Control 
-                    as="textarea"
-                    name="back"
-                    placeholder={formData.back}
-                    value={formData.back}
-                    onChange={handleInputChange}
-                    required
-                />
-                </Form.Group>
-                <Button variant="outline-secondary" onClick={() => handleDoneButton()}>Done</Button> 
-                <Button variant="primary" type="submit">Submit</Button>
-            </Form>
-        </div>
-      </div>
+            <CardForm
+                formData={formData}
+                handleInputChange={handleInputChange}
+                handleSubmitForm={handleSubmitForm}
+            />
+            <Button variant="outline-secondary" onClick={() => handleDoneButton()}>Done</Button>
+            <Button variant="primary" type="submit" onClick={handleSubmitForm}>Save</Button>
+            </div>
+    </div>  
     )
 }
 

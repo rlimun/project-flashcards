@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useHistory, useParams, Link } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { readDeck, readCard, updateCard } from "../utils/api";
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
+import CardForm from "./CardForm";
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
+import Button from 'react-bootstrap/Button';
 
 /**
  * Functional EditCard component that allows editing details of a specific card within a deck
@@ -17,7 +17,6 @@ function EditCard(){
     });
     
     const history = useHistory();
-    //const [ loading, setLoading ] = useState(true);
     const initialCardState = {  
         front: '',
         back: '',
@@ -65,7 +64,7 @@ function EditCard(){
         return () => {
             abortController.abort();
         }
-    }, [cardId]);
+    }, [cardId, deckId]);
 
     /**
      * Handles the form submission for updating a card
@@ -116,33 +115,14 @@ function EditCard(){
         <div className="editCardPage">
             {breadCrumb}
             <div className="editCardForm">
-                <Form onSubmit={handleSubmitForm}>
-                    <Form.Group className="mb-3" controlId="formFront">
-                        <Form.Label>Front</Form.Label>
-                        <Form.Control
-                            as="textarea"
-                            name="front"
-                            placeholder={formData.front}
-                            value={formData.front}
-                            onChange={handleInputChange}
-                            required
-                        />
-                    </Form.Group>
-
-                    <Form.Group className="mb-3" controlId="formBack">
-                        <Form.Label>Back</Form.Label>
-                        <Form.Control
-                            as="textarea"
-                            name="back"
-                            placeholder={formData.back}
-                            value={formData.back}
-                            onChange={handleInputChange}
-                            required
-                        />
-                    </Form.Group>
-                    <Button variant="outline-secondary" onClick={() => handleCancelButton()}>Done</Button>
-                    <Button variant="primary" type="submit">Submit</Button>
-                </Form>
+              <CardForm
+                formData={formData}
+                handleInputChange={handleInputChange}
+                handleSubmitForm={handleSubmitForm}
+                handleCancelButton={() => history.push(`/decks/${deckId}`)}
+            />
+            <Button variant="outline-secondary" onClick={() => handleCancelButton()}>Cancel</Button>
+            <Button variant="primary" type="submit" onClick={handleSubmitForm}>Save</Button>
             </div>
         </div>
     )
