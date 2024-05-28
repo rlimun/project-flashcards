@@ -6,6 +6,7 @@ You could view cards, study cards, edit cards, delete cards, and add cards.
 
 You could also view, edit, delete, and add different decks.
 
+![](https://github.com/rlimun/project-flashcards/build/flashcards.gif)
 
 ## Installation
 To launch the app, please clone this repository and open up to its directory.
