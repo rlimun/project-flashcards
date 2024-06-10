@@ -1,13 +1,13 @@
 import React from "react";
-import Header from "./Header";
-import NotFound from "./NotFound";
-import Home from "./Home";
-import Deck from "./Deck";
+import Header from "./components/Header";
+import NotFound from "./components/NotFound";
+import Home from "./components/Home";
+import Deck from "./decks/Deck";
 import Study from "./Study";
-import CreateDeck from "./CreateDeck";
-import EditDeck from "./EditDeck";
-import AddCard from "./AddCard";
-import EditCard from "./EditCard";
+import CreateDeck from "./decks/CreateDeck";
+import EditDeck from "./decks/EditDeck";
+import AddCard from "./cards/AddCard";
+import EditCard from "./cards/EditCard";
 import { Route, Switch } from "react-router-dom";
 
 
