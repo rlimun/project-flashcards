@@ -36,3 +36,5 @@ The tests are using the Test Framework and Test Runner - Jest, and using Test Ut
 
 07/08/2024: I upgraded the react version and version of react-testing-library. I also added some unit tests for AddCard. However, one of the tests is failing and I think it is because it is not using the jest mock properly, I'm still trying to figure out how to fix this. Also, since I refactored some code previously, other tests are failing and some functionality is not working and that is also something I still have to fix.
 
+08/21/2024: I know I haven't worked on this in awhile -- I went on vacation and came back and started studying for technical interviews so if I can find time to work on this, I really want to get back to it.
+
