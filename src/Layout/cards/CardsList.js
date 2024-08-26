@@ -67,20 +67,22 @@ function CardsList({deck, setDeck}) {
             className="modal show"
             style={{ display: 'block', position: 'initial' }}
             >
-                {deck.cards.map((card, index) => (
+                { deck.cards.map((card, index) => (
                     <div key={card.id}>
-                        <Modal.Dialog>
-                            <Modal.Header>
-                                <Modal.Title>
-                                    Card {index + 1} of {deck.cards.length}
-                                </Modal.Title>
-                            </Modal.Header>
-                            <Card
-                                card={card}
-                                setDeck={updateDeck}
-                                onDeleteCard={handleCardDeleteButton}
-                            />
+                        <div className="cardContainer">
+                            <Modal.Dialog>
+                                <Modal.Header>
+                                    <Modal.Title>
+                                        Card {index + 1} of {deck.cards.length}
+                                    </Modal.Title>
+                                </Modal.Header>
+                                <Card
+                                    card={card}
+                                    setDeck={updateDeck}
+                                    onDeleteCard={handleCardDeleteButton}
+                                />
                         </Modal.Dialog>
+                        </div>
                 </div>
             ))}
             </div>
