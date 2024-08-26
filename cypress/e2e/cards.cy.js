@@ -8,8 +8,12 @@ describe('template spec', () => {
   })
 
   it('passes', () => {
+    cy.wait(2000);
   cy.wait('@getData').then((data) => {
       cy.log(data);
     })
   })
+  // it('verify deck is visible', () => {
+  //   cy.get('.modal-content').should('be.visible');
+  // })
 })

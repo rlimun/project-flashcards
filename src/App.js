@@ -1,17 +1,16 @@
+
 import React from "react";
 import { Route, Switch } from "react-router-dom";
 import Layout from "./Layout/index";
 
-/**
- * App is a wrapper for <Layout>, you should not need to change this file.
- */
-
+// Your existing App component
 function App() {
+  console.log("App is rendering");
   return (
     <div className="app-routes">
       <Switch>
         <Route path="/">
-          <Layout/>
+          <Layout />
         </Route>
       </Switch>
     </div>

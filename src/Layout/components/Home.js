@@ -17,8 +17,7 @@ function Home(){
         const fetchDecks = async() => {
             try {
                 const data = await listDecks();
-                console.log("Fetched decks:", data);
-                setDecks(data);
+              setDecks(data);
             } catch(error) {
                 console.error("error", error);
             }
@@ -29,6 +28,8 @@ function Home(){
             abortController.abort();
         }
     }, []);
+
+    
 
     /**
      * Handles the Study button 
@@ -74,12 +75,12 @@ function Home(){
             }
         }
     };
-    
+
     return (
         <div>
             <div className="home-body" style={{ display: 'flex' , flexDirection: 'column'}}>
             <Button variant="outline-primary" style={{ display: 'flex', alignItems: "center", justifyContent: 'center'}} onClick={handleCreateDeckClick}>Create Deck</Button>
-            { decks.map((deck) => (
+            { Array.isArray(decks) && decks.map((deck) => (
                 <div key={deck.id}>
                      <div
                         className="modal show"
