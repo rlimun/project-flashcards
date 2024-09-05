@@ -24,8 +24,9 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
-Cypress.Commands.add('loadFlashCardsData', () => {
+Cypress.Commands.add('loadFlashCardsData', (req) => {
     cy.fixture('flashCardData').then((data) => {
         cy.wrap(data).as('flashcardsData');
       });
+    cy.intercept('GET', req, { fixture: 'flashCardData.json'}).as('getData');
 })
